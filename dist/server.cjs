@@ -28,7 +28,6 @@ var import_dotenv = __toESM(require("dotenv"), 1);
 import_dotenv.default.config();
 var app = (0, import_express.default)();
 var PORT = process.env.PORT || 3e3;
-app.use(import_express.default.json());
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
