@@ -1,7 +1,6 @@
-// controllers/user.controller.ts
 import { NextFunction, Request, Response } from 'express';
 import { IUserService } from '../service/user.service.interface';
-import { UserService } from '../service/user.service';
+import { UserService } from '../service/impl/user.service';
 import { UpdateUserResponse } from '../dto/response/update.user.response';
 import { UpdateUserRequest } from '../dto/request/update.user.request';
 import { UserResponse } from '../dto/response/user.dto.response';

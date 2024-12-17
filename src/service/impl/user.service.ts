@@ -1,15 +1,15 @@
-import { User } from "../models/user.model";
-import { IUserService } from "./user.service.interface";
-import { CreateUserDto } from "../dto/request/create.user.request";
-import { UserRepository } from '../repositories/user.repository';
+import { User } from "../../models/user.model";
+import { IUserService } from "../user.service.interface";
+import { CreateUserDto } from "../../dto/request/create.user.request";
+import { UserRepository } from '../../repositories/user.repository';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import { UserResponse } from "../dto/response/user.dto.response";
-import { InvalidPaginationParams, UserAlreadyExist, UserNotFound } from "../exceptions/user-errors";
-import { HttpErrorHandler } from "../exceptions/http-error.handler";
-import { UpdateUserRequest } from "../dto/request/update.user.request";
-import { UpdateUserResponse } from "../dto/response/update.user.response";
-import { PaginatedResult } from "../interfaces/pagination.type.interface";
+import { UserResponse } from "../../dto/response/user.dto.response";
+import { InvalidPaginationParams, UserAlreadyExist, UserNotFound } from "../../exceptions/user-errors";
+import { HttpErrorHandler } from "../../exceptions/http-error.handler";
+import { UpdateUserRequest } from "../../dto/request/update.user.request";
+import { UpdateUserResponse } from "../../dto/response/update.user.response";
+import { PaginatedResult } from "../../interfaces/pagination.type.interface";
 
 
 dotenv.config();
