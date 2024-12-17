@@ -80,6 +80,87 @@ var UserRepository = class {
       });
     });
   }
+  findUserByEmail(email) {
+    return __async(this, null, function* () {
+      return yield prisma.user.findUnique({
+        where: { email }
+      });
+    });
+  }
+  findUserById(id) {
+    return __async(this, null, function* () {
+      return yield prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          password: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true
+        }
+      });
+    });
+  }
+  getUserByIdForUpdate(userId) {
+    return __async(this, null, function* () {
+      return yield prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          name: true,
+          email: true,
+          password: true
+        }
+      });
+    });
+  }
+  existUserByEmail(email) {
+    return __async(this, null, function* () {
+      const user = yield prisma.user.findUnique({
+        where: { email }
+      });
+      return !!user;
+    });
+  }
+  existsUserWithId(id) {
+    return __async(this, null, function* () {
+      const user = yield prisma.user.findUnique({
+        where: { id }
+      });
+      return !!user;
+    });
+  }
+  getAllUsersWithPagination(page, limit) {
+    return __async(this, null, function* () {
+      const offset = (page - 1) * limit;
+      const totalElements = yield prisma.user.count();
+      const content = yield prisma.user.findMany({
+        skip: offset,
+        take: limit,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          password: false,
+          createdAt: true,
+          updatedAt: true
+        },
+        orderBy: {
+          id: "asc"
+        }
+      });
+      const totalPages = Math.ceil(totalElements / limit);
+      return {
+        content,
+        page,
+        limit,
+        totalElements,
+        totalPages
+      };
+    });
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

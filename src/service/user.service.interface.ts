@@ -6,9 +6,9 @@ import { PaginatedResult } from '../interfaces/pagination.type.interface';
 
 export interface IUserService {
   createUser(data: CreateUserDto): Promise<string>;
-  getUserByEmail(email: string): Promise<UserResponse | null>;
+  getUserByEmail(email: string): Promise<UserResponse>;
   updateUser(id: string, data: UpdateUserRequest): Promise<UpdateUserResponse>;
   deleteUserById(id: string): Promise<void>;
   getAllUserWithPagination(page: number, limit: number): Promise<PaginatedResult>;
-  getUserByID(id: string): Promise<UserResponse | null>;
+  getUserByID(id: string): Promise<UserResponse>;
 }

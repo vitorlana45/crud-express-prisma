@@ -43,7 +43,7 @@ export class UserService implements IUserService {
     return result.id;
   };
 
-  getUserByEmail = async (email: string): Promise<UserResponse | null> => {
+  getUserByEmail = async (email: string): Promise<UserResponse> => {
     const user = await this.repository.findUserByEmail(email);
     if (!user) {
       throw new UserNotFound();
@@ -51,7 +51,7 @@ export class UserService implements IUserService {
     return new UserResponse(user.id, user.name, user.email, user.role, user.createdAt, user.updatedAt);
   };
 
-  getUserByID = async (id: string): Promise<UserResponse | null> => {
+  getUserByID = async (id: string): Promise<UserResponse> => {
     const user = await this.repository.findUserById(id);
     if (!user) {
       throw new UserNotFound();

@@ -47,17 +47,12 @@ var __async = (__this, __arguments, generator) => {
   });
 };
 
-// src/application.ts
-var application_exports = {};
-__export(application_exports, {
-  default: () => application_default
+// src/service/impl/user.service.ts
+var user_service_exports = {};
+__export(user_service_exports, {
+  UserService: () => UserService
 });
-module.exports = __toCommonJS(application_exports);
-var import_express2 = __toESM(require("express"), 1);
-var import_cors = __toESM(require("cors"), 1);
-
-// src/routes/router.ts
-var import_express = require("express");
+module.exports = __toCommonJS(user_service_exports);
 
 // src/models/user.model.ts
 var User = class {
@@ -319,101 +314,7 @@ var UserService = class {
     });
   }
 };
-
-// src/controllers/user.controller.ts
-var userService = new UserService();
-var registerUser = (req, res, next) => __async(void 0, null, function* () {
-  try {
-    const id = yield userService.createUser(req.body);
-    res.header("application/json");
-    res.header("Location", `/users/${id}`);
-    res.status(201).send();
-  } catch (error) {
-    next(error);
-  }
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  UserService
 });
-var getUserByEmail = (req, res, next) => __async(void 0, null, function* () {
-  const email = req.params.email;
-  try {
-    const user = yield userService.getUserByEmail(email);
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-var getUserByID = (req, res, next) => __async(void 0, null, function* () {
-  const id = req.params.id;
-  try {
-    const user = yield userService.getUserByID(id);
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-var updateUser = (req, res, next) => __async(void 0, null, function* () {
-  const id = req.params.id;
-  try {
-    const data = yield userService.updateUser(id, req.body);
-    res.status(200).send(data);
-  } catch (error) {
-    next(error);
-  }
-});
-var deleteUser = (req, res, next) => __async(void 0, null, function* () {
-  try {
-    yield userService.deleteUserById(req.params.id);
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
-});
-var getAllUsersPagination = (req, res, next) => __async(void 0, null, function* () {
-  const { page, limit } = req.query;
-  try {
-    const pageNum = page ? parseInt(page, 10) : 1;
-    const limitNum = limit ? parseInt(limit, 10) : 10;
-    if (isNaN(pageNum) || isNaN(limitNum) || pageNum < 1 || limitNum < 1) {
-      throw new InvalidPaginationParams("Page and limit must be valid numbers greater than 0");
-    }
-    const users = yield userService.getAllUserWithPagination(pageNum, limitNum);
-    res.status(200).json(users);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-// src/routes/router.ts
-var router = (0, import_express.Router)();
-router.post("/users", registerUser);
-router.get("/users/:email", getUserByEmail);
-router.get("/users/get/:id", getUserByID);
-router.patch("/users/:id", updateUser);
-router.delete("/users/:id", deleteUser);
-router.get("/users", getAllUsersPagination);
-var router_default = router;
-
-// src/middleware/error-handler.ts
-var errorHandler = (err, req, res, next) => {
-  if (err instanceof HttpErrorHandler) {
-    res.status(err.status).json(
-      {
-        instant: (/* @__PURE__ */ new Date()).toISOString(),
-        error: err.message
-      }
-    );
-  } else {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-// src/application.ts
-function createApplication() {
-  const app = (0, import_express2.default)();
-  app.use(import_express2.default.json());
-  app.use("/api", router_default);
-  app.use((0, import_cors.default)());
-  app.use(errorHandler);
-  return app;
-}
-var application_default = createApplication;

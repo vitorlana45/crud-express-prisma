@@ -17,20 +17,23 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/models/user.model.ts
-var user_model_exports = {};
-__export(user_model_exports, {
-  User: () => User
+// src/dto/response/user.dto.response.ts
+var user_dto_response_exports = {};
+__export(user_dto_response_exports, {
+  UserResponse: () => UserResponse
 });
-module.exports = __toCommonJS(user_model_exports);
-var User = class {
-  constructor(name, email, password) {
+module.exports = __toCommonJS(user_dto_response_exports);
+var UserResponse = class {
+  constructor(id, name, email, role, createdAt, updatedAt) {
+    this.id = id;
     this.name = name;
     this.email = email;
-    this.password = password;
+    this.role = role;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  User
+  UserResponse
 });

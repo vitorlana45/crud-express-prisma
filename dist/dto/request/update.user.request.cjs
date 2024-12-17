@@ -17,15 +17,15 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/models/dto/createUserDto.ts
-var createUserDto_exports = {};
-__export(createUserDto_exports, {
-  CreateUserDto: () => CreateUserDto
+// src/dto/request/update.user.request.ts
+var update_user_request_exports = {};
+__export(update_user_request_exports, {
+  UpdateUserRequest: () => UpdateUserRequest
 });
-module.exports = __toCommonJS(createUserDto_exports);
-var CreateUserDto = class {
+module.exports = __toCommonJS(update_user_request_exports);
+var UpdateUserRequest = class {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  CreateUserDto
+  UpdateUserRequest
 });

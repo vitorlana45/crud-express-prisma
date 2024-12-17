@@ -17,20 +17,36 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/models/user.model.ts
-var user_model_exports = {};
-__export(user_model_exports, {
-  User: () => User
+// src/middleware/error-handler.ts
+var error_handler_exports = {};
+__export(error_handler_exports, {
+  errorHandler: () => errorHandler
 });
-module.exports = __toCommonJS(user_model_exports);
-var User = class {
-  constructor(name, email, password) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
+module.exports = __toCommonJS(error_handler_exports);
+
+// src/exceptions/http-error.handler.ts
+var HttpErrorHandler = class extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+    this.message = message;
+  }
+};
+
+// src/middleware/error-handler.ts
+var errorHandler = (err, req, res, next) => {
+  if (err instanceof HttpErrorHandler) {
+    res.status(err.status).json(
+      {
+        instant: (/* @__PURE__ */ new Date()).toISOString(),
+        error: err.message
+      }
+    );
+  } else {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  User
+  errorHandler
 });

@@ -17,20 +17,20 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/models/user.model.ts
-var user_model_exports = {};
-__export(user_model_exports, {
-  User: () => User
+// src/exceptions/http-error.handler.ts
+var http_error_handler_exports = {};
+__export(http_error_handler_exports, {
+  HttpErrorHandler: () => HttpErrorHandler
 });
-module.exports = __toCommonJS(user_model_exports);
-var User = class {
-  constructor(name, email, password) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
+module.exports = __toCommonJS(http_error_handler_exports);
+var HttpErrorHandler = class extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+    this.message = message;
   }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  User
+  HttpErrorHandler
 });

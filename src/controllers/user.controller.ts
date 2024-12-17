@@ -2,24 +2,20 @@ import { NextFunction, Request, Response } from 'express';
 import { IUserService } from '../service/user.service.interface';
 import { UserService } from '../service/impl/user.service';
 import { UpdateUserResponse } from '../dto/response/update.user.response';
-import { UpdateUserRequest } from '../dto/request/update.user.request';
 import { UserResponse } from '../dto/response/user.dto.response';
 import { InvalidPaginationParams } from '../exceptions/user-errors';
 import { PaginationParams } from '../interfaces/type.pagination.params';
+import { CreateUserDto } from '../dto/request/create.user.request';
 
 const userService: IUserService = new UserService();
 
-export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
-
-  try {
-    const id: string = await userService.createUser(req.body);
+export const registerUser = async (req: Request, res: Response) => {
+  const body:CreateUserDto = req.body;
+  const id: string = await userService.createUser(body);
 
     res.header('application/json');
     res.header('Location', `/users/${id}`);
     res.status(201).send();
-  } catch (error) {
-    next(error);
-  }
 };
 
 
