@@ -1,4 +1,5 @@
 import { PrismaClient, User } from '@prisma/client';
+import { PaginatedResult } from '../interfaces/pagination.type.interface';
 
 const prisma = new PrismaClient();
 
@@ -81,16 +82,41 @@ export class UserRepository {
   }
 
 
-  async getAllUsersWithPagination(page: number, limit: number): Promise<Partial<User[]>> {
+  async getAllUsersWithPagination(page: number, limit: number): Promise<PaginatedResult> {
     const offset = (page - 1) * limit;
-    return await prisma.user.findMany({
+
+    // Contar o número total de registros
+    const totalElements = await prisma.user.count();
+
+    // Recuperar os dados paginados
+    const content = await prisma.user.findMany({
       skip: offset,
       take: limit,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        password: false,
+        createdAt: true,
+        updatedAt: true,
+      },
       orderBy: {
         id: 'asc',
       },
     });
+
+    const totalPages = Math.ceil(totalElements / limit);
+
+    return {
+      content,
+      page,
+      limit,
+      totalElements,
+      totalPages,
+    };
   }
 }
+
 
 

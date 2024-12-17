@@ -6,6 +6,7 @@ import { UpdateUserResponse } from '../dto/response/update.user.response';
 import { UpdateUserRequest } from '../dto/request/update.user.request';
 import { UserResponse } from '../dto/response/user.dto.response';
 import { InvalidPaginationParams } from '../exceptions/user-errors';
+import { PaginationParams } from '../interfaces/type.pagination.params';
 
 const userService: IUserService = new UserService();
 
@@ -85,8 +86,3 @@ export const getAllUsersPagination = async (req: Request, res: Response, next: N
     next(error);
   }
 };
-
-interface PaginationParams {
-  page: string;
-  limit: string;
-}

@@ -9,7 +9,7 @@ import { InvalidPaginationParams, UserAlreadyExist, UserNotFound } from "../exce
 import { HttpErrorHandler } from "../exceptions/http-error.handler";
 import { UpdateUserRequest } from "../dto/request/update.user.request";
 import { UpdateUserResponse } from "../dto/response/update.user.response";
-import { PrismaClient } from "@prisma/client";
+import { PaginatedResult } from "../interfaces/pagination.type.interface";
 
 
 dotenv.config();
@@ -95,21 +95,20 @@ export class UserService implements IUserService {
   }
 
 
-  async getAllUserWithPagination(page: number, limit: number): Promise<UserResponse[]> {
-    
-    if (page < 1 || limit < 1) {
-      throw new InvalidPaginationParams('Page and limit must be greater than 0');
-    }
+  async getAllUserWithPagination(page: number, limit: number): Promise<PaginatedResult> {
 
-    let list = await this.repository.getAllUsersWithPagination(page, limit);
+    if (page < 1 || limit < 1) throw new InvalidPaginationParams('Page and limit must be greater than 0');
 
-    let newListResponse:UserResponse[] = []
 
-    list.forEach((user) => {
-      newListResponse.push(new UserResponse(user!.id, user!.name, user!.email, user!.role, user!.createdAt, user!.updatedAt));
-    });
+    const obj: PaginatedResult = await this.repository.getAllUsersWithPagination(page, limit);
 
-    return newListResponse;
+    const newListResponse: UserResponse[] = obj.content
+      .filter(user => user.id && user.name && user.email && user.role && user.createdAt && user.updatedAt)
+      .map(user => new UserResponse(user.id!, user.name!, user.email!, user.role!, user.createdAt!, user.updatedAt!));
+
+    obj.content = newListResponse;
+
+    return obj;
   }
 
 
