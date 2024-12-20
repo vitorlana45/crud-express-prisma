@@ -3,7 +3,7 @@ import { LoginResponseDto } from "../../dto/response/login.response";
 import { CredentialsNotMatch, UserNotFound } from "../../exceptions/user-errors";
 import { UserRepository } from "../../repositories/user.repository";
 import bcrypt from 'bcrypt';
-import { TokenService } from "./token.service";
+import { TokenService } from "../../security/token.service";
 
 
 export class AuthService {
