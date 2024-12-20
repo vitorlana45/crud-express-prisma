@@ -12,13 +12,17 @@ export class UserController {
 
   constructor(public userService: IUserService) { }
 
-  async registerUser(req: Request, res: Response) {
-    const body: CreateUserDto = req.body;
-    const id: string = await this.userService.createUser(body);
+  async registerUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const body: CreateUserDto = req.body;
+      const id: string = await this.userService.createUser(body);
 
-    res.header('application/json');
-    res.header('Location', `/users/${id}`);
-    res.status(201).send();
+      res.header('application/json');
+      res.header('Location', `/users/${id}`);
+      res.status(201).send();
+    } catch (error) {
+      next(error);
+    }
   };
 
 
