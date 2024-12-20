@@ -22,7 +22,7 @@ export class AuthService {
       throw new CredentialsNotMatch();
     }
 
-    const jwt = await this.tokenService.generate({ email: findUser.email, id: findUser.id });
+    const jwt = await this.tokenService.generate({ email: findUser.email, id: findUser.id, role: findUser.role });
 
     return { token: jwt };
   }

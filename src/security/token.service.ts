@@ -13,8 +13,7 @@ export class TokenService {
 
   async generate(payload: jose.JWTPayload, expirationTime: number | string = '2h') {
 
-    const secret = new TextEncoder().encode(this.secretKey,
-    )
+    const secret = new TextEncoder().encode(this.secretKey)
     const alg = this.algorithm
 
     const jwt = await new jose.SignJWT(payload)
