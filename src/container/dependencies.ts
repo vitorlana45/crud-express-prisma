@@ -1,7 +1,7 @@
 import { AuthService, AuthController } from '../controllers/auth.controller';
 import { UserController } from '../controllers/user.controller';
 import { UserService } from '../service/impl/user.service';
-import { UserRepository } from '../repositories/user.repository';
+import { UserRepository } from '../repositories/impl/user.repository';
 import { TokenService } from '../security/token.service';
 
 class DependencyContainer {

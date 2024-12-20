@@ -1,6 +1,6 @@
 import { PrismaClient, User } from '@prisma/client';
-import { PaginatedResult } from '../interfaces/pagination.type.interface';
-import { IUserRepository } from './IUserRepository.interface';
+import { PaginatedResult } from '../../interfaces/pagination.type.interface';
+import { IUserRepository } from '../IUserRepository.interface';
 
 const prisma = new PrismaClient();
 

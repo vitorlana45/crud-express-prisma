@@ -1,7 +1,7 @@
 import { AuthRequestDto } from "../../dto/request/auth.request";
 import { LoginResponseDto } from "../../dto/response/login.response";
 import { CredentialsNotMatch, UserNotFound } from "../../exceptions/user-errors";
-import { UserRepository } from "../../repositories/user.repository";
+import { UserRepository } from "../../repositories/impl/user.repository";
 import bcrypt from 'bcrypt';
 import { TokenService } from "../../security/token.service";
 
