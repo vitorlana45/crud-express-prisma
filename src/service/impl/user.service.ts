@@ -1,38 +1,29 @@
 import { User } from "../../models/user.model";
 import { IUserService } from "../user.service.interface";
 import { CreateUserDto } from "../../dto/request/create.user.request";
-import { UserRepository } from '../../repositories/user.repository';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
 import { UserResponse } from "../../dto/response/user.dto.response";
 import { InvalidPaginationParams, UserAlreadyExist, UserNotFound } from "../../exceptions/user-errors";
 import { HttpErrorHandler } from "../../exceptions/http-error.handler";
 import { UpdateUserRequest } from "../../dto/request/update.user.request";
 import { UpdateUserResponse } from "../../dto/response/update.user.response";
 import { PaginatedResult } from "../../interfaces/pagination.type.interface";
-
-
-dotenv.config();
+import { IUserRepository } from "../../repositories/IUserRepository.interface";
 
 export class UserService implements IUserService {
 
-  private repository: UserRepository;
+  private repository: IUserRepository;
   private readonly secretKey: string;
 
-  constructor(repository?: UserRepository) {
-    this.repository = repository || new UserRepository();
-
-    if (!process.env.SECRET_KEY) {
-      throw new HttpErrorHandler(500, "SECRET_KEY is not defined in the environment variables");
-    };
-    this.secretKey = process.env.SECRET_KEY;
+  constructor(userRepo: IUserRepository) {
+    this.repository = userRepo;
   }
 
 
-  createUser = async (data: CreateUserDto): Promise<string> => {
+  async createUser(data: CreateUserDto): Promise<string> {
     const { name, email, password } = data;
 
-    const encryptPassword = await bcrypt.hash(password + this.secretKey, 10);
+    const encryptPassword = await bcrypt.hash(password, 10);
     const entity = new User(name, email, encryptPassword);
 
     if (await this.repository.findUserByEmail(email) !== null) {
@@ -67,21 +58,21 @@ export class UserService implements IUserService {
       throw new UserNotFound();
     }
 
-    let entity: Partial<User> = user;
+    const entity: Partial<User> = user;
 
-    if (data.email !== null) {
-      if (await this.repository.existUserByEmail(data.email!)) {
+    if (!data.email) {
+      const existsUser = await this.repository.existUserByEmail(data.email!);
+      if (existsUser) {
         throw new UserAlreadyExist(`User with email '${data.email}' already exists`);
       }
-      entity.email = data.email;
-    }
 
-    if (data.name !== null) {
-      entity.name = data.name;
-    }
+      if (!data.password) {
+        data.password = await bcrypt.hash(data.password + this.secretKey, 10);
+      }
 
-    if (data.password !== null) {
-      entity.password = await bcrypt.hash(data.password! + this.secretKey, 10);
+      // TODO: ver melhor depois, faz a mesclagem da entidade com os dados da entrada e ignora os nulos e undefined
+      Object.assign(entity, data)
+
     }
 
     const updatedUser = await this.repository.updateUser(id, entity);

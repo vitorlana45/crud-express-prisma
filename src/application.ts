@@ -9,9 +9,8 @@ function createApplication() {
   const app = express();
 
   app.use(express.json());
-  app.use("/api", Router);
-
   app.use(cors());
+  app.use(Router);
   app.use(errorHandler);
 
   return app;

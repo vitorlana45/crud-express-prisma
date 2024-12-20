@@ -1,9 +1,10 @@
 import { PrismaClient, User } from '@prisma/client';
 import { PaginatedResult } from '../interfaces/pagination.type.interface';
+import { IUserRepository } from './IUserRepository.interface';
 
 const prisma = new PrismaClient();
 
-export class UserRepository {
+export class UserRepository implements IUserRepository {
 
   async createUser(data: Omit<User, 'id' | 'role' | 'createdAt' | 'updatedAt'>): Promise<User> {
     return await prisma.user.create({

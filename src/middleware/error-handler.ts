@@ -1,12 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpErrorHandler } from '../exceptions/http-error.handler';
 
-export const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const errorHandler = ( err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof HttpErrorHandler) {
     res.status(err.status).json(
       {
